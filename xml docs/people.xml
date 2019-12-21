@@ -1,0 +1,14 @@
+<people>
+    <person id="1">
+        <firstName>Brandon</firstName>
+        <lastName>Clayton</lastName>
+        <age>28</age>
+    </person>
+
+    <person id="2">
+        <firstName>Samantha</firstName>
+        <lastName>Pinedo</lastName>
+        <age>24</age>
+    </person>
+
+</people>
