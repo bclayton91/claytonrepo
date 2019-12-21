@@ -31,4 +31,3 @@ stats = [stats_1, stats_2, stats_3]
 print ("id, color, circumference, area")
 for circles in stats:
     print (circles)
-

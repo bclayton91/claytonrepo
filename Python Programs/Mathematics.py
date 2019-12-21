@@ -7,10 +7,7 @@ class Math:
         self.id = id
         self.length = l
         self.width = w
-
-    def addition(self):
-        return self.length + self.width
-
+        
     def area(self):
         return self.length * self.width
 
