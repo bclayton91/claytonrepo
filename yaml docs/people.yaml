@@ -1,15 +1,15 @@
 ---
 people:
 - Id: 1
-  Code: 524.37
-  FirstName: Brandon
-  LastName: Clayton
-  Email: brandonclayton1991@gmail.com
-  Active: true
+   Code: 524.37
+   FirstName: Brandon
+   LastName: Clayton
+   Email: brandonclayton1991@gmail.com
+   Active: true
 - Id: 2
-  Code: 813
-  FirstName: Samantha
-  LastName: Pinedo
-  Email: spinedo@gmail.com
-  Active: true
+   Code: 813
+   FirstName: Samantha
+   LastName: Pinedo
+   Email: spinedo@gmail.com
+   Active: true
 ...
