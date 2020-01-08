@@ -47,3 +47,7 @@ print(interface_python)
 name = interface_python["interfaces"]["interface"]["name"]["#text"]
 
 print(name)
+
+### go into the interfaces tage and parse out the interface information ###
+config = interface_python["interfaces"]["interface"]
+op_state = interface_python["interfaces-state"]["interface"]
