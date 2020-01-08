@@ -3,6 +3,7 @@ from ncclient import manager
 
 ### import xml dom.minidom ###
 import xml.dom.minidom
+import xmltodict
 
 ### create a dictionary of the router you are going to be connecting to ###
 router = {"host": "192.168.3.1","port":"22","username":"bclayton7043", "password":"temporary1"}
@@ -38,3 +39,11 @@ password=router["password"]) as m:
         print ("*"*25+"Break"+"*"*50)
 
     m.close_session()
+
+### parse the information into python objects and print them out ###
+interface_python = xmltodict.parse(interface_netconf.xml)[
+    "rpc-reply"]["data"]
+print(interface_python)
+name = interface_python["interfaces"]["interface"]["name"]["#text"]
+
+print(name)
