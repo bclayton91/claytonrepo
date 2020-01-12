@@ -10,3 +10,9 @@ people:
   Email: spinedo@gmail.com
 
 ...
+---
+email:
+- Id: 1
+ Service: gmail
+...
+ 
