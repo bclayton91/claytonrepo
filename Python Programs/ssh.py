@@ -7,11 +7,12 @@ conn.connect('192.168.3.1')
 conn.login(account)  
 
 ## conn.execute('terminal length 0')    
+conn.execute("terminal length 0")
        
-conn.execute('configure terminal')
-conn.execute('interface g0/0')
-conn.execute("description Connected to PS4")
+conn.execute('show ip route')
+print (conn.response)
 
+conn.execute('show version')
 print (conn.response)
 
 conn.send('exit\r')               
