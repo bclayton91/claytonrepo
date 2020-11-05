@@ -1,6 +1,12 @@
-true = 1
-while true==true:
-    print ("this is the song that never ends")
-    print ("I can't stop singing")
+import unittest 
+def my_func():
+     return True
 
-   
+class TestMyCode(unittest.TestCase):
+    def test_func(self):
+        self.assertTrue(my_func, '{true}'
+unittest.main()
+
+
+
+    
