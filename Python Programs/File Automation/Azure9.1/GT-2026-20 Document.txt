@@ -1,0 +1,52 @@
+aaa attribute list  7612230
+  attribute type interface-config "desc AUTO-TUNNEL - GT-2026-20 - 7612230"
+  attribute type interface-config "vrf forwarding RHN3ME5"
+  attribute type interface-config "ip unnumbered Loopback 305"
+  attribute type interface-config "ipv6 enable"
+  attribute type  interface-config "ospfv3 1 ipv4 area 0"
+  attribute type interface-config "service-policy output PMAP_IVPN_SHAPE_OUT_3MB"
+
+crypto ikev2 authorization policy 7612230
+  aaa attribute list 7612230
+
+exit
+
+
+aaa attribute list  7612240
+  attribute type interface-config "desc AUTO-TUNNEL - GT-2026-20 - 7612240"
+  attribute type interface-config "vrf forwarding RHN3ME5"
+  attribute type interface-config "ip unnumbered Loopback 305"
+  attribute type interface-config "ipv6 enable"
+  attribute type  interface-config "ospfv3 1 ipv4 area 0"
+  attribute type interface-config "service-policy output PMAP_IVPN_SHAPE_OUT_3MB"
+
+crypto ikev2 authorization policy 7612240
+  aaa attribute list 7612240
+
+exit
+
+
+aaa attribute list  7612250
+  attribute type interface-config "desc AUTO-TUNNEL - GT-2026-20 - 7612250"
+  attribute type interface-config "vrf forwarding RHN3ME5"
+  attribute type interface-config "ip unnumbered Loopback 305"
+  attribute type interface-config "ipv6 enable"
+  attribute type  interface-config "ospfv3 1 ipv4 area 0"
+  attribute type interface-config "service-policy output PMAP_IVPN_SHAPE_OUT_3MB"
+
+crypto ikev2 authorization policy 7612250
+  aaa attribute list 7612250
+
+exit
+
+
+!!!!!!!!!!!!!!!!!! TEARDOWN  !!!!!!!!!!!!!!!!!!!!!!!!!!
+
+no crypto ikev2 authorization policy 7612230
+no aaa attribute list 7612230
+
+no crypto ikev2 authorization policy 7612240
+no aaa attribute list 7612240
+
+no crypto ikev2 authorization policy 7612250
+no aaa attribute list 7612250

@@ -1,0 +1,18 @@
+aaa attribute list  7615700
+  attribute type interface-config "desc AUTO-TUNNEL - GT-2053-20 - 7615700"
+  attribute type interface-config "vrf forwarding RHN5SEP3"
+  attribute type interface-config "ip unnumbered Loopback 10506"
+  attribute type interface-config "ipv6 enable"
+  attribute type  interface-config "ospfv3 1 ipv4 area 0"
+  attribute type interface-config "service-policy output PMAP_IVPN_SHAPE_OUT_3MB"
+
+crypto ikev2 authorization policy 7615700
+  aaa attribute list 7615700
+
+exit
+
+
+!!!!!!!!!!!!!!!!!! TEARDOWN  !!!!!!!!!!!!!!!!!!!!!!!!!!
+
+no crypto ikev2 authorization policy 7615700
+no aaa attribute list 7615700

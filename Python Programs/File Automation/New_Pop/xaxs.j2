@@ -1,0 +1,419 @@
+service nagle
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+service sequence-numbers
+no service dhcp
+!
+hostname {{hostname}}_XAXS
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret {{password}}
+!
+username {{username}} privilege 15 secret {{password}}
+aaa new-model
+!
+!
+aaa group server tacacs+ TACACS_GROUP
+ server name ISE_APG_6010
+ server name ISE_GAITNOC_BRAGG
+!
+aaa authentication login AUTHC_LOGIN group TACACS_GROUP local
+aaa authentication enable default group TACACS_GROUP enable
+aaa authorization console
+aaa authorization config-commands
+aaa authorization exec AUTHZ_EXEC group TACACS_GROUP local if-authenticated
+aaa authorization commands 1 AUTHZ_CMD1 group TACACS_GROUP none
+aaa authorization commands 15 AUTHZ_CMD15 group TACACS_GROUP none
+aaa accounting exec default start-stop group TACACS_GROUP
+aaa accounting commands 1 default start-stop group TACACS_GROUP
+aaa accounting commands 15 default start-stop group TACACS_GROUP
+!
+!
+!
+aaa session-id common
+process cpu threshold type total rising 50 interval 600 falling 20 interval 600
+system mtu routing 1500
+!
+!
+no ip source-route
+ip arp gratuitous none
+no ip gratuitous-arps
+!
+!
+no ip domain-lookup
+ip domain-name jntc.army.mil
+login on-failure log
+login on-success log
+vtp mode off
+!
+!
+!
+file prompt quiet
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+vlan 2
+ name NATIVE
+!
+vlan 380
+ name VPN_MGMT
+!
+vlan 400
+ name TENANT0_PUB_CMNT
+!
+vlan 401
+ name TENANT1_USARC-200MP-FMMD
+!
+vlan 402
+ name TENANT2_UNUSED
+!
+vlan 403
+ name TENANT3_UNUSED
+!
+vlan 404
+ name TENANT4_UNUSED
+no cdp run
+!
+ip tcp selective-ack
+ip tcp synwait-time 10
+ip tcp path-mtu-discovery
+!
+interface GigabitEthernet0/1
+ description TENANT1: USARC-200MP-FMMD
+ switchport access vlan 401
+ switchport mode access
+ no shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/2
+ description TENANT1: USARC-200MP-FMMD
+ switchport access vlan 401
+ switchport mode access
+ no shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/3
+ description TENANT1: USARC-200MP-FMMD
+ switchport access vlan 401
+ switchport mode access
+ no shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/4
+ description TENANT1: USARC-200MP-FMMD
+ switchport access vlan 401
+ switchport mode access
+ no shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/5
+ description TENANT2: UNUSED
+ switchport access vlan 402
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/6
+ description TENANT2: UNUSED
+ switchport access vlan 402
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/7
+ description TENANT2: UNUSED
+ switchport access vlan 402
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/8
+ description TENANT2: UNUSED
+ switchport access vlan 402
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/9
+ description TENANT3: UNUSED
+ switchport access vlan 403
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/10
+ description TENANT3: UNUSED
+ switchport access vlan 403
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/11
+ description TENANT3: UNUSED
+ switchport access vlan 403
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/12
+ description TENANT3: UNUSED
+ switchport access vlan 403
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/13
+ description TENANT4: UNUSED
+ switchport access vlan 404
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/14
+ description TENANT4: UNUSED
+ switchport access vlan 404
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/15
+ description TENANT4: UNUSED
+ switchport access vlan 404
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/16
+ description TENANT4: UNUSED
+ switchport access vlan 404
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/17
+ description BACKPLANE; UNUSED
+ switchport protected
+ shutdown
+!
+interface GigabitEthernet0/18
+ description TO ROUTER ETHERNET-INTERNAL 1/0/0
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 2
+ switchport mode trunk
+ switchport nonegotiate
+ switchport protected
+ spanning-tree portfast trunk
+ no shutdown
+!
+interface Vlan1
+ description UNUSED
+ no ip address
+ shutdown
+!
+interface Vlan380
+ description VPN MGMT SVI
+ ip address 10.108.{{third_oct}}.77 255.255.255.240
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ no shutdown
+!
+ip default-gateway 10.108.{{third_oct}}.78
+no ip forward-protocol nd
+no ip http server
+no ip http secure-server
+!
+ip ssh time-out 60
+ip ssh authentication-retries 2
+ip ssh port 3022 rotary 1
+ip ssh logging events
+ip ssh version 2
+ip ssh dh min size 2048
+ip ssh dscp 16
+ip ssh server algorithm mac hmac-sha1
+ip ssh server algorithm encryption aes256-ctr
+ip ssh client algorithm mac hmac-sha1
+ip ssh client algorithm encryption aes256-ctr
+ip scp server enable
+crypto key generate rsa modulus 1024
+
+
+!
+ip access-list standard ACL_LINE_AUTOMATION
+ remark SSH ACCESS FOR ANSIBLE AUTOMATION
+ permit 10.108.3.85 log
+ permit 10.108.3.84 log
+ permit 10.108.255.140 log
+ permit 10.108.255.141 log
+ deny   any log
+ip access-list standard ACL_LINE_PROTECTION
+ remark SSH PROTECTION FOR THE ROUTER
+ permit 10.108.3.64 0.0.0.15 log
+ permit 10.108.4.64 0.0.0.15 log
+ permit 10.108.5.64 0.0.0.15 log
+ permit 10.108.253.0 0.0.0.255 log
+ permit 10.108.255.0 0.0.0.255 log
+ deny   any log
+ip access-list standard ACL_NTP_PEER
+ remark ENUMERATE THE NTP SERVERS WHO CAN UPDATE MY CLOCK
+ permit 10.108.4.42
+ permit 10.108.3.83
+ip access-list standard ACL_NTP_SERVE
+ remark ENUMERATE THE DEVICES THAT CAN USE ME AS AN NTP SERVER
+ deny   any
+ip access-list standard ACL_SNMP_READ_RESTRICTION
+ remark CONTROL READ ACCESS TO SNMP INFORMATION
+ permit 10.108.3.64 0.0.0.15
+ permit 10.108.4.64 0.0.0.31
+ permit 10.108.5.64 0.0.0.31
+ permit 10.108.255.0 0.0.0.255
+ deny   any log
+!
+!
+logging history informational
+no logging trap
+logging origin-id hostname
+logging snmp-trap emergencies
+logging snmp-trap alerts
+logging snmp-trap critical
+logging snmp-trap errors
+logging snmp-trap warnings
+logging snmp-trap notifications
+logging snmp-trap informational
+!
+snmp-server group READv3Group v3 priv read V3VIEW access ACL_SNMP_READ_RESTRICTION
+snmp-server view V3VIEW iso included
+snmp-server location FT_Meade_MD
+snmp-server ip dscp 16
+snmp-server contact GAITNOC: 910-778-8408/8409
+snmp-server enable traps syslog
+snmp-server user READv3User READv3Group v3 auth sha 12345678 priv aes 128 12345678
+snmp-server host 10.108.3.66 version 3 priv READv3User  syslog
+snmp-server host 10.108.4.66 version 3 priv READv3User  syslog
+snmp-server host 10.108.5.66 version 3 priv READv3User  syslog
+snmp-server host 10.108.255.165 version 3 priv READv3User  syslog
+snmp ifmib ifindex persist
+tacacs server ISE_APG_6010
+ address ipv4 10.108.3.81
+ key 7 053F272C006F7D36383530
+ timeout 1
+tacacs server ISE_GAITNOC_BRAGG
+ address ipv4 10.108.5.81
+ key 7 053F272C006F7D36383530
+ timeout 1
+!
+!
+!
+no vstack
+banner exec %
+If SNMPv3 is not functioning, ensure users exist with the correct credentials:
+
+snmp-server user READv3User READv3Group v3 auth sha [authPass] priv aes 128 [privPass]
+
+Verify the users exist with "show snmp user"
+%
+banner motd %
+"YOU ARE ACCESSING A U.S. GOVERNMENT (USG) INFORMATION SYSTEM (IS)
+THAT IS PROVIDED FOR USG-AUTHORIZED USE ONLY.
+By using this IS (which includes any device attached to this IS),
+you consent to the following conditions:
+1. The USG routinely intercepts and monitors communications on this IS for
+purposes including, but not limited to, penetration testing, COMSEC monitoring,
+network operations and defense, personnel misconduct (PM), law enforcement
+(LE), and counterintelligence (CI) investigations.
+2. At any time, the USG may inspect and seize data stored on this IS.
+3. Communications using, or data stored on, this IS are not private, are
+subject to routine monitoring, interception, and search, and may be disclosed
+or used for any USG authorized purpose.
+4. This IS includes security measures (eg, authentication and access controls)
+to protect USG interests--not for your personal benefit or privacy.
+5. Notwithstanding the above, using this IS does not constitute consent to
+PM, LE or CI investigative searching or monitoring of the content of privileged
+communications, or work product, related to personal representation or services
+by attorneys, psychotherapists, or clergy, and their assistants. Such
+communications and work product are private and confidential.
+See User Agreement for details."
+%
+!
+line con 0
+ exec-timeout 9 0
+ authorization exec AUTHZ_EXEC
+ login authentication AUTHC_LOGIN
+ history size 256
+ transport preferred none
+ transport output ssh
+ flowcontrol software
+line vty 0 3
+ access-class ACL_LINE_PROTECTION in
+ exec-timeout 9 0
+ authorization commands 1 AUTHZ_CMD1
+ authorization commands 15 AUTHZ_CMD15
+ authorization exec AUTHZ_EXEC
+ login authentication AUTHC_LOGIN
+ history size 256
+ transport preferred none
+ transport input ssh
+ transport output ssh
+line vty 4
+ access-class ACL_LINE_AUTOMATION in
+ no motd-banner
+ no exec-banner
+ exec-timeout 2 0
+ authorization commands 1 AUTHZ_CMD1
+ authorization commands 15 AUTHZ_CMD15
+ authorization exec AUTHZ_EXEC
+ login authentication AUTHC_LOGIN
+ rotary 1
+ length 0
+ width 0
+ history size 256
+ transport preferred none
+ transport input ssh
+ transport output none
+line vty 5 15
+ no exec
+!
+ntp logging
+ntp authentication-key 1 md5 00273C2A2B6927233C12 7
+ntp authentication-key 2 md5 1326383E243E280F18177A 7
+ntp authentication-key 3 md5 02252B77243423047F7D5A 7
+ntp authenticate
+ntp trusted-key 1
+ntp trusted-key 2
+ntp trusted-key 3
+ntp source Vlan380
+ntp access-group peer ACL_NTP_PEER
+ntp access-group serve ACL_NTP_SERVE
+ntp server 10.108.3.83 key 1
+ntp server 10.108.4.42 key 3
+
+!
+end

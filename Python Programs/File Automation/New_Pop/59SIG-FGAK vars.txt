@@ -1,0 +1,13 @@
+---
+   make_zip: true
+   zip_name: "59SIG-FGAK"
+   doc_name: "SITE"
+   entity_list:
+     - id: "59SIG-FGAK"
+       third_octet: 189
+       disa_subnet: "33.44.166.0/30"
+       ccsd: "XNA2"
+       bw_mbps: 150
+       location: "FT_Greely_AK"
+       region: "pacific"
+...
