@@ -1,0 +1,24 @@
+! Apply this configuration to the Route-Reflectors
+
+router bgp 4769
+
+ neighbor 10.108.{{third_oct}}.50 inherit peer-session IBGP_SESS_REMOTES
+ neighbor 10.108.{{third_oct}}.50 description {{hostname}}
+ !
+ address-family vpnv4
+  neighbor 10.108.{{third_oct}}.50 activate
+  neighbor 10.108.{{third_oct}}.50 inherit peer-policy IBGP_VPN_RRC
+ exit-address-family
+ !
+ address-family ipv4 mdt
+  neighbor 10.108.{{third_oct}}.50 activate
+  neighbor 10.108.{{third_oct}}.50 inherit peer-policy IBGP_VPN_RRC
+ exit-address-family
+ !
+ address-family vpnv6
+  neighbor 10.108.{{third_oct}}.50 activate
+  neighbor 10.108.{{third_oct}}.50 inherit peer-policy IBGP_VPN_RRC
+ exit-address-family
+
+!
+! End of Document

@@ -1,7 +1,7 @@
 from jinja2 import Environment, FileSystemLoader
 
 #set variables 
-hostname='NG-35ID-KS'
+hostname='Test_Pop'
 Gait_ip='33.0.44.2'
 Disa_ip='33.0.44.1'
 csc_subnet='33.0.44.0/30'

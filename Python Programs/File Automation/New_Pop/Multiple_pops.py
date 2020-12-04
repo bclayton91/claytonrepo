@@ -90,3 +90,39 @@ for site in Sites:
     fh=open(f'{doc_name}.txt', 'w')
     fh.write(output2)
     fh.close()
+
+#Now create the PCR config 
+    env = Environment(loader=file_loader)
+    template3 = env.get_template('rr.j2'
+    )
+
+#Apply the veriables
+    output3 = template3.render(
+
+    hostname=site["hostname"], 
+    third_oct=site["third_octet"]
+
+    )
+#Create document
+    doc_name = f'{site["hostname"]} PCR Configuration'
+    fh=open(f'{doc_name}.txt', 'w')
+    fh.write(output3)
+    fh.close()
+
+#Now create the SNMPc config 
+    env = Environment(loader=file_loader)
+    template4 = env.get_template('snmpc_vpn.j2'
+    )
+
+#Apply the veriables
+    output4 = template4.render(
+
+    hostname=site["hostname"], 
+    third_oct=site["third_octet"]
+
+    )
+#Create document
+    doc_name = f'{site["hostname"]} SNMPc Configuration'
+    fh=open(f'{doc_name}.txt', 'w')
+    fh.write(output4)
+    fh.close()
