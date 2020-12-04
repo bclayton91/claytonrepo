@@ -6,7 +6,7 @@ import json
 Data= '''
 [
 {
-"hostname":"Site1",
+"hostname":"Site11",
 "Gait_ip":"33.0.1.2",
 "Disa_ip":"33.0.1.1",
 "csc_subnet":"33.0.1.0/30",
@@ -16,7 +16,7 @@ Data= '''
 "password":"GenDyn1234567*("
 },
 {
-"hostname":"Site2",
+"hostname":"Site12",
 "Gait_ip":"33.0.2.2",
 "Disa_ip":"33.0.2.1",
 "csc_subnet":"33.0.2.0/30",
@@ -26,7 +26,7 @@ Data= '''
 "password":"GenDyn1234567*("
 },
 {
-"hostname":"Site3",
+"hostname":"Site13",
 "Gait_ip":"33.0.3.2",
 "Disa_ip":"33.0.3.1",
 "csc_subnet":"33.0.3.0/30",
@@ -42,14 +42,16 @@ Data= '''
 #Deserialize json data into python dictionary 
 Sites=json.loads(Data)
 
+#This line uses the current directory 
+file_loader = FileSystemLoader('.')
+
+# Load the enviroment
+env = Environment(loader=file_loader)
+
 #implement For loop to generate multiple configurations
 for site in Sites:
 
-#This line uses the current directory
-    file_loader = FileSystemLoader('.')
-
-# Load the enviroment
-    env = Environment(loader=file_loader)
+#Using the j2 Template, create the router config
     template = env.get_template('xper.j2')
     
 #Apply the veriables
@@ -73,9 +75,8 @@ for site in Sites:
 
     )
 #Now create the Switch config 
-    env = Environment(loader=file_loader)
-    template2 = env.get_template('xaxs.j2'
-    )
+    template2 = env.get_template('xaxs.j2')
+    
 #Apply the veriables
     output2 = template2.render(
 
@@ -92,10 +93,8 @@ for site in Sites:
     fh.close()
 
 #Now create the PCR config 
-    env = Environment(loader=file_loader)
-    template3 = env.get_template('rr.j2'
-    )
-
+    template3 = env.get_template('rr.j2')
+    
 #Apply the veriables
     output3 = template3.render(
 
@@ -110,10 +109,8 @@ for site in Sites:
     fh.close()
 
 #Now create the SNMPc config 
-    env = Environment(loader=file_loader)
-    template4 = env.get_template('snmpc_vpn.j2'
-    )
-
+    template4 = env.get_template('snmpc_vpn.j2')
+    
 #Apply the veriables
     output4 = template4.render(
 
