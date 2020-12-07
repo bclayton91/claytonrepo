@@ -19,7 +19,6 @@ template = env.get_template('xper.j2'
 )
 #Apply the veriables
 output = template.render(
-
 third_oct=third_octet,
 Gait_ip=Gait_ip,
 Disa_ip=Disa_ip,

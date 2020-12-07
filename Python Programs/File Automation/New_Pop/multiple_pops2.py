@@ -73,7 +73,3 @@ for site in Sites:
 
     template4 = env.get_template('snmpc_vpn.j2')
     get_snmpc_config()
-
-
-
-    

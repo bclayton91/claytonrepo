@@ -1,0 +1,18 @@
+aaa attribute list  {{Terminal}}
+  attribute type interface-config "desc AUTO-TUNNEL - {{GT}} - {{Terminal}}"
+  attribute type interface-config "vrf forwarding {{VRF}}"
+  attribute type interface-config "ip unnumbered Loopback {{loopback}}"
+  attribute type interface-config "ipv6 enable"
+  attribute type  interface-config "ospfv3 1 ipv4 area 0"
+  attribute type interface-config "service-policy output PMAP_IVPN_SHAPE_OUT_3MB"
+
+crypto ikev2 authorization policy {{Terminal}}
+  aaa attribute list {{Terminal}}
+
+exit
+
+
+!!!!!!!!!!!!!!!!!! TEARDOWN  !!!!!!!!!!!!!!!!!!!!!!!!!!
+
+no crypto ikev2 authorization policy {{Terminal}}
+no aaa attribute list {{Terminal}}

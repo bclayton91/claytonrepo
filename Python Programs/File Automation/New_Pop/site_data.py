@@ -4,7 +4,7 @@ import json
 Data= '''
 [
 {
-"hostname":"Site11",
+"hostname":"Greenville-NC",
 "Gait_ip":"33.0.1.2",
 "Disa_ip":"33.0.1.1",
 "csc_subnet":"33.0.1.0/30",
@@ -14,7 +14,7 @@ Data= '''
 "password":"GenDyn1234567*("
 },
 {
-"hostname":"Site12",
+"hostname":"San-Diego-CA",
 "Gait_ip":"33.0.2.2",
 "Disa_ip":"33.0.2.1",
 "csc_subnet":"33.0.2.0/30",
@@ -24,7 +24,7 @@ Data= '''
 "password":"GenDyn1234567*("
 },
 {
-"hostname":"Site13",
+"hostname":"Charleston-SC",
 "Gait_ip":"33.0.3.2",
 "Disa_ip":"33.0.3.1",
 "csc_subnet":"33.0.3.0/30",

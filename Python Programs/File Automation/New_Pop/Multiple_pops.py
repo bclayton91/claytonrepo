@@ -39,7 +39,7 @@ Data= '''
 ]
 '''
 
-#Deserialize json data into python dictionary 
+#Deserialize json data into python list
 Sites=json.loads(Data)
 
 #This line uses the current directory 
