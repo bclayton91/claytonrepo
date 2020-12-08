@@ -1,7 +1,8 @@
 #import required libraries
 from jinja2 import Environment, FileSystemLoader
 import json 
-from site_data import Sites
+from site_data import Sites, Data
+
 
 #This line uses the current directory 
 file_loader = FileSystemLoader('.')
@@ -34,7 +35,7 @@ def get_xper_config():
 
 
 def get_xaxs_config():
-    if site["get_xaxs_config"]=="True":
+    if site["get_xaxs_config"]== "True":
         output2 = template2.render(
         username=site["username"],
         password=site["password"],
@@ -52,7 +53,7 @@ def get_xaxs_config():
     
 
 def get_pcr_config():
-    if site["get_pcr_config"]=="True":
+    if site["get_pcr_config"]== "True":
         output3 = template3.render(
         hostname=site["hostname"], 
         third_oct=site["third_octet"])
@@ -66,7 +67,7 @@ def get_pcr_config():
         print (f'skipping {site["hostname"]} pcr configuration')
 
 def get_snmpc_config():
-    if site["get_snmpc_config"]=="True":
+    if site["get_snmpc_config"]== "True":
         output4 = template4.render(
         hostname=site["hostname"], 
         third_oct=site["third_octet"])
@@ -94,3 +95,7 @@ for site in Sites:
 
     template4 = env.get_template('snmpc_vpn.j2')
     get_snmpc_config()
+
+fh=open("Retained-Vars.txt", 'w')
+fh.write(Data)
+fh.close()

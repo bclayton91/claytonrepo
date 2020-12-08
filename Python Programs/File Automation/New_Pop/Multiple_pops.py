@@ -13,7 +13,7 @@ Data= '''
 "third_octet":"1",
 "ccsd":"1000",
 "username":"gdadmin",
-"password":"GenDyn1234567*("
+"password":"GenDyn1234567*(",
 },
 {
 "hostname":"Site12",

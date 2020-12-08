@@ -35,7 +35,7 @@ vrf definition TENANT0
  exit-address-family
 !
 vrf definition TENANT1
- description TAO-AVA-MARK
+ description {{hostname}}
  !
  address-family ipv4
  exit-address-family
@@ -436,7 +436,7 @@ interface Loopback904
  ipv6 address fc00:10:108:{{third_oct}}::1004/128
 !
 interface GigabitEthernet0/0/0
- description DISA CSC-PE - CCSD:7DTL
+ description DISA CSC-PE - CCSD:{{CCSD}}
  mtu 9000
  ip pim sparse-mode
  ip address {{Gait_ip}} 255.255.255.252
@@ -506,7 +506,7 @@ interface Ethernet-Internal1/0/0
   shutdown
  !
  service instance 401 ethernet
-  description TENANT1: TAO-AVA-MARK
+  description TENANT1: {{hostname}}
   encapsulation dot1q 401 exact
   rewrite ingress tag pop 1 symmetric
   service-policy input PMAP_TOS_TO_EXP
@@ -574,7 +574,7 @@ interface BDI400
  shutdown
 !
 interface BDI401
- description TENANT1: 
+ description TENANT1: {{hostname}}
  vrf forwarding TENANT1
  ip address 10.108.{{third_oct}}.81 255.255.255.248
  no ip redirects
@@ -638,7 +638,7 @@ router bgp 4769
  exit-peer-policy
  !
  template peer-session EBGP_CSC_SESS
-  remote-as 27064
+  remote-as 27066
   transport connection-mode active
   ! Pacific region must have a hyphen in the password
   ! Other regions must not have a hyphen in the password
@@ -666,7 +666,7 @@ router bgp 4769
  neighbor 10.125.78.1 inherit peer-session IBGP_SESS
  neighbor 10.125.78.1 description RHN5_PCR2
  neighbor {{Disa_ip}} inherit peer-session EBGP_CSC_SESS
- neighbor {{Disa_ip}} description 7DTL
+ neighbor {{Disa_ip}} description {{CCSD}}
  !
  address-family ipv4
   bgp aggregate-timer 10
@@ -760,6 +760,7 @@ ip access-list standard ACL_LINE_AUTOMATION
  remark SSH ACCESS FOR ANSIBLE AUTOMATION
  permit 10.108.3.85 log
  permit 10.108.3.84 log
+ permit 10.108.4.71 log
  permit 10.108.255.140 log
  permit 10.108.255.141 log
  deny any log
@@ -768,6 +769,7 @@ ip access-list standard ACL_LINE_PROTECTION
  permit 10.108.3.64 0.0.0.15 log
  permit 10.108.4.64 0.0.0.15 log
  permit 10.108.5.64 0.0.0.15 log
+ permit 10.108.4.208 0.0.0.15 log
  permit 10.108.253.0 0.0.0.255 log
  permit 10.108.255.0 0.0.0.255 log
  deny any log
@@ -814,7 +816,7 @@ ip access-list extended ACL_ALLOWED_ICMPV4_UNREACHABLES
 ip access-list extended ACL_CSC1_PE_IN
  remark INFRASTRUCTURE ACL FROM CSC LINK 1
  permit tcp host {{Disa_ip}} eq bgp host {{Gait_ip}}
- deny   tcp any eq bgp host 33.42.2.162 log
+ deny   tcp any eq bgp host {{Gait_ip}} log
  deny   tcp any host {{Gait_ip}} eq bgp log
  permit ip any any
 ip access-list extended ACL_CSC2_PE_IN
@@ -903,7 +905,6 @@ snmp-server group READv3Group v3 priv read V3VIEW access ACL_SNMP_READ_RESTRICTI
 snmp-server view V3VIEW iso included
 snmp-server trap-source Loopback1
 snmp-server source-interface informs Loopback1
-snmp-server location Alexandria_VA
 snmp-server ip dscp 16
 snmp-server contact GAITNOC: 910-778-8408/8409
 snmp-server enable traps syslog
