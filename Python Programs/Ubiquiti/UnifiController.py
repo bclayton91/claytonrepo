@@ -10,14 +10,14 @@
 # sudo apt update
 # sudo apt install --yes openjdk-8-jre-headless unifi
 
-
+from UnifiAuth import auth, controller
 import requests
 import json
 from pprint import pprint
 
 requests.packages.urllib3.disable_warnings()
 # set up connection parameters in a dictionary
-controller = {"ip": "3.142.255.165", "port": "8443"}
+
 
 # set REST API headers
 headers = {"Accept": "application/json",
@@ -27,8 +27,8 @@ loginUrl = 'api/login'
 url = f"https://{controller['ip']}:{controller['port']}/{loginUrl}"
 # set username and password
 body = {
-    "username": "bclayton91",
-    "password": "BRan!@n12345"
+    "username": auth['username'],
+    "password": auth['password']
 }
 # Open a session for capturing cookies
 session = requests.Session()
@@ -64,4 +64,10 @@ for site in siteslist:
     else:
         print ("This is a spoke site")
     print ("*" * 50)
-    
+
+endpoint = 'api/stat/sites'
+url = f"https://{controller['ip']}:{controller['port']}/{endpoint}"
+
+response = session.get(url, headers=headers, verify=False)
+api_data = response.json()
+pprint (api_data)
