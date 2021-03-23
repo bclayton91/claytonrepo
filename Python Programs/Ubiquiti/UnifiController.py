@@ -1,5 +1,8 @@
 #This script is designed for using the unifi controller.
-#To install the unifi controller on an ubuntu 20.04 server, run the following code in the CLI:
+#Written by: Brandon Clayton
+
+#To install the unifi controller on an ubuntu 20.04 server, log into the server and
+# run the following commands in the cli
 
 # sudo apt-get update
 # sudo apt-get install --yes ca-certificates apt-transport-https wget
