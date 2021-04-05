@@ -1,0 +1,374 @@
+!
+version 15.8
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime localtime show-timezone
+service timestamps log datetime localtime show-timezone
+service password-encryption
+service linenumber
+!
+hostname {{Site}}-N-VPN-R
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+logging buffered 20000 informational
+no logging console
+logging monitor informational
+enable secret 5 $1$T8A8$PcI3hurLEoGY2//Ftq5s5/
+!
+aaa new-model
+!
+!
+aaa authentication login default local enable
+aaa authentication enable default enable
+aaa authorization console
+aaa authorization config-commands
+aaa authorization exec default local if-authenticated
+aaa authorization commands 15 default local if-authenticated
+!
+!
+!
+!
+!
+aaa session-id common
+!
+!
+!
+clock timezone EST -5 0
+clock summer-time EDT recurring
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+no ip source-route
+no ip gratuitous-arps
+!
+!
+!
+!
+!
+!
+no ip bootp server
+no ip domain lookup
+ip domain name virl.info
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username localro secret 5 $1$HE7l$M00UHVDZZYrpzyTX2BUwX.
+username localadm privilege 15 secret 5 $1$avPs$9RiBJeuXZ9wbZCcbGZIs71
+username pfreyes privilege 15 secret 5 $1$XwsM$rOfDCve2Cp70Tyo2NQBTu0
+!
+redundancy
+!
+!
+ip tcp synwait-time 10
+ip tcp intercept connection-timeout 60
+ip tcp intercept watch-timeout 10
+!
+crypto logging session
+!
+crypto ikev2 proposal CLJN_IKEv2_Proposal
+ encryption aes-cbc-256
+ integrity sha512
+ group 16
+crypto ikev2 proposal FSTR_IKEv2_Proposal
+ encryption aes-cbc-256
+ integrity sha512
+ group 16
+crypto ikev2 proposal PNDL_IKEv2_Proposal
+ encryption aes-cbc-256
+ integrity sha512
+ group 16
+!
+crypto ikev2 policy CLJN_IKEv2_Policy
+ match fvrf any
+ proposal CLJN_IKEv2_Proposal
+crypto ikev2 policy FSTR_IKEv2_Policy
+ match fvrf any
+ proposal FSTR_IKEv2_Proposal
+crypto ikev2 policy PNDL_IKEv2_Policy
+ match fvrf any
+ proposal PNDL_IKEv2_Proposal
+!
+!
+crypto ikev2 profile CLJN_IKEv2_Profile
+ match fvrf any
+ match identity remote address 172.20.10.100 255.255.255.0
+ identity local address 172.20.10.{{Third_Oct}}
+ authentication remote pre-share key cisco123
+ authentication local pre-share key cisco123
+!
+crypto ikev2 profile PNDL_IKEv2_Profile
+ match fvrf any
+ match identity remote address 172.20.11.100 255.255.255.0
+ identity local address 172.20.11.{{Third_Oct}}
+ authentication remote pre-share key cisco123
+ authentication local pre-share key cisco123
+!
+crypto ikev2 profile FSTR_IKEv2_Profile
+ match fvrf any
+ match identity remote address 172.20.12.100 255.255.255.0
+ identity local address 172.20.12.{{Third_Oct}}
+ authentication remote pre-share key cisco123
+ authentication local pre-share key cisco123
+!
+no crypto ikev2 http-url cert
+no crypto isakmp default policy
+!
+!
+crypto ipsec transform-set CLJN_T_SET esp-aes esp-sha-hmac
+ mode tunnel
+crypto ipsec transform-set PNDL_T_SET esp-aes esp-sha-hmac
+ mode tunnel
+crypto ipsec transform-set FSTR_T_SET esp-aes esp-sha-hmac
+ mode tunnel
+!
+crypto ipsec profile CLJN_PROF
+ set transform-set CLJN_T_SET
+ set ikev2-profile CLJN_IKEv2_Profile
+!
+crypto ipsec profile FSTR_PROF
+ set transform-set FSTR_T_SET
+ set ikev2-profile FSTR_IKEv2_Profile
+!
+crypto ipsec profile PNDL_PROF
+ set transform-set PNDL_T_SET
+ set ikev2-profile PNDL_IKEv2_Profile
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description Loopback
+ ip address 192.168.{{Third_Oct}}.2 255.255.255.255
+!
+interface Loopback30
+ ip address 172.30.{{Third_Oct}}1.2 255.255.255.255
+!
+interface Tunnel10
+ description CLJN-NIPR-DMVPN-Cloud
+ ip address 172.20.10.{{Third_Oct}} 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp authentication cisco123
+ ip nhrp map 172.20.10.100 10.10.1.6
+ ip nhrp map multicast 10.10.1.6
+ ip nhrp network-id 10
+ ip nhrp holdtime 300
+ ip nhrp nhs 172.20.10.100
+ tunnel source GigabitEthernet0/1
+ tunnel mode gre multipoint
+ tunnel key 10
+ tunnel protection ipsec profile CLJN_PROF ikev2-profile CLJN_IKEv2_Profile
+!
+interface Tunnel11
+ description PNDL-NIPR-DMVPN-Cloud
+ ip address 172.20.11.{{Third_Oct}} 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp authentication cisco123
+ ip nhrp map 172.20.11.100 10.11.1.6
+ ip nhrp map multicast 10.11.1.6
+ ip nhrp network-id 11
+ ip nhrp holdtime 300
+ ip nhrp nhs 172.20.11.100
+ tunnel source GigabitEthernet0/1
+ tunnel mode gre multipoint
+ tunnel key 11
+ tunnel protection ipsec profile PNDL_PROF ikev2-profile PNDL_IKEv2_Profile
+!
+interface Tunnel12
+ description FSTR-NIPR-DMVPN-Cloud
+ ip address 172.20.12.{{Third_Oct}} 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp authentication cisco123
+ ip nhrp map 172.20.12.100 10.12.1.6
+ ip nhrp map multicast 10.12.1.6
+ ip nhrp network-id 12
+ ip nhrp holdtime 300
+ ip nhrp nhs 172.20.12.100
+ tunnel source GigabitEthernet0/1
+ tunnel mode gre multipoint
+ tunnel key 12
+ tunnel protection ipsec profile FSTR_PROF ikev2-profile FSTR_IKEv2_Profile
+!
+interface GigabitEthernet0/0
+ description OOB Management
+ vrf forwarding Mgmt-intf
+ ip address 10.255.{{Third_Oct}}1.2 255.255.0.0
+ duplex full
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description to {{Site}}-N-C-R
+ ip address 10.{{Third_Oct}}.2.2 255.255.255.252
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 10 md5 7 05080F1C22431F5B4A
+ ip ospf 1 area 0
+ ip ospf cost 1
+ duplex full
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ router-id 192.168.{{Third_Oct}}.2
+ area 0 authentication message-digest
+ redistribute connected subnets
+ passive-interface Loopback0
+						   
+ passive-interface Tunnel11
+ passive-interface Tunnel12
+ neighbor 192.168.{{Third_Oct}}.1
+!
+router bgp 65001
+ bgp log-neighbor-changes
+ timers bgp 5 15
+ neighbor TEP_REMOTE peer-group
+ neighbor TEP_REMOTE remote-as 65001
+ neighbor TEP_REMOTE password 7 0822455D0A16544541
+ neighbor TEP_REMOTE update-source Loopback0
+ neighbor TEP_REMOTE timers 5 15
+ neighbor 192.168.10.4 peer-group TEP_REMOTE
+ neighbor 192.168.10.4 description CLJN RR
+ neighbor 192.168.11.4 peer-group TEP_REMOTE
+ neighbor 192.168.11.4 description PNDL RR
+ neighbor 192.168.12.4 peer-group TEP_REMOTE
+ neighbor 192.168.12.4 description FSTR RR
+ !
+ address-family ipv4
+  network 172.30.{{Third_Oct}}.2 mask 255.255.255.255
+  neighbor TEP_REMOTE send-community both
+  neighbor TEP_REMOTE route-map SET_CM_LOCAL out
+  neighbor {{Primary_Hub}} activate
+  neighbor {{Primary_Hub}} weight 600
+  neighbor {{Secondary_Hub}} activate
+  neighbor {{Secondary_Hub}} weight 400
+  neighbor {{Tertiary_Hub}} activate
+  neighbor {{Tertiary_Hub}} weight 200
+ exit-address-family
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+!
+no ip http server
+no ip http secure-server
+ip route 10.10.1.4 255.255.255.252 10.{{Third_Oct}}.2.1 name CLJN-N-VPN-R
+ip route 10.11.1.4 255.255.255.252 10.{{Third_Oct}}.2.1 name PNDL-N-VPN-R
+ip route 10.12.1.4 255.255.255.252 10.{{Third_Oct}}.2.1 name FSTR-N-VPN-R
+ip route 192.168.10.4 255.255.255.255 172.20.10.100 name BGP-CLJN-N-RR-R
+ip route 192.168.11.4 255.255.255.255 172.20.11.100 name BGP-PNDL-N-RR-R
+ip route 192.168.12.4 255.255.255.255 172.20.12.100 name BGP-FSTR-N-RR-R
+ip ssh time-out 30
+ip ssh authentication-retries 2
+ip ssh version 2
+ip ssh server algorithm authentication password
+ip scp server enable
+!
+ipv6 ioam timestamp
+!
+route-map SET_CM_LOCAL permit 10
+ set community {{Community_String}}
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+
+You are accessing a U.S. Government (USG) Information System (IS) that is
+provided for USG-authorized use only. By using this IS (which includes any
+device attached to this IS), you consent to the following conditions:
+
+- The USG routinely intercepts and monitors communications on this IS for
+  purposes including, but not limited to, penetration testing, COMSEC
+  monitoring, network operations and defense, personnel misconduct (PM), law
+  enforcement (LE), and counterintelligence (CI) investigations.
+
+- At any time, the USG may inspect and seize data stored on this IS.
+
+- Communications using, or data stored on, this IS are not private, are subject
+  to routine monitoring, interception, and search, and may be disclosed or used
+  for any USG-authorized purpose.
+
+- This IS includes security measures (e.g., authentication and access controls)
+  to protect USG interests--not for your personal benefit or privacy.
+
+- Notwithstanding the above, using this IS does not constitute consent to PM,
+  LE or CI investigative searching or monitoring of the content of privileged
+  communications, or work product, related to personal representation or
+  services by attorneys, psychotherapists, or clergy, and their assistants.
+  Such communications and work product are private and confidential. See User
+  Agreement for details.
+
+^C
+!
+line con 0
+ exec-timeout 0 0
+ password 7 0822455D0A16544541
+line aux 0
+ no exec
+ transport output none
+line vty 0 4
+ exec-timeout 6 0
+ password 7 070C285F4D06485744
+ transport input ssh
+ transport output none
+line vty 5 15
+ exec-timeout 6 0
+ transport input none
+ transport output none
+!
+no scheduler allocate
+ntp authentication-key 1 md5 0822455D0A16544541 7
+ntp authenticate
+ntp trusted-key 1
+ntp server 10.123.123.123 key 1 source Loopback0
+!
