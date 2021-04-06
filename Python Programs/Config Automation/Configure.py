@@ -10,7 +10,7 @@ def get_vpnrtr_config():
     if Var["get-vpnrtr-config"]=="True":
         output=template.render(
         Site=Var["Site"],
-        Third_Oct=Var["Third_Oct"],
+        Site_Id=Var["Site_Id"],
         Primary_Hub=Var["Primary_Hub"],
         Secondary_Hub=Var["Secondary_Hub"],
         Tertiary_Hub=Var["Tertiary_Hub"])

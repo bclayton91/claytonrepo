@@ -116,21 +116,21 @@ crypto ikev2 policy PNDL_IKEv2_Policy
 crypto ikev2 profile CLJN_IKEv2_Profile
  match fvrf any
  match identity remote address 172.20.10.100 255.255.255.0
- identity local address 172.20.10.{{Third_Oct}}
+ identity local address 172.20.10.{{Site_Id}}
  authentication remote pre-share key cisco123
  authentication local pre-share key cisco123
 !
 crypto ikev2 profile PNDL_IKEv2_Profile
  match fvrf any
  match identity remote address 172.20.11.100 255.255.255.0
- identity local address 172.20.11.{{Third_Oct}}
+ identity local address 172.20.11.{{Site_Id}}
  authentication remote pre-share key cisco123
  authentication local pre-share key cisco123
 !
 crypto ikev2 profile FSTR_IKEv2_Profile
  match fvrf any
  match identity remote address 172.20.12.100 255.255.255.0
- identity local address 172.20.12.{{Third_Oct}}
+ identity local address 172.20.12.{{Site_Id}}
  authentication remote pre-share key cisco123
  authentication local pre-share key cisco123
 !
@@ -165,14 +165,14 @@ crypto ipsec profile PNDL_PROF
 !
 interface Loopback0
  description Loopback
- ip address 192.168.{{Third_Oct}}.2 255.255.255.255
+ ip address 192.168.{{Site_Id}}.2 255.255.255.255
 !
 interface Loopback30
- ip address 172.30.{{Third_Oct}}1.2 255.255.255.255
+ ip address 172.30.{{Site_Id}}1.2 255.255.255.255
 !
 interface Tunnel10
  description CLJN-NIPR-DMVPN-Cloud
- ip address 172.20.10.{{Third_Oct}} 255.255.255.0
+ ip address 172.20.10.{{Site_Id}} 255.255.255.0
  no ip redirects
  ip mtu 1400
  ip nhrp authentication cisco123
@@ -188,7 +188,7 @@ interface Tunnel10
 !
 interface Tunnel11
  description PNDL-NIPR-DMVPN-Cloud
- ip address 172.20.11.{{Third_Oct}} 255.255.255.0
+ ip address 172.20.11.{{Site_Id}} 255.255.255.0
  no ip redirects
  ip mtu 1400
  ip nhrp authentication cisco123
@@ -204,7 +204,7 @@ interface Tunnel11
 !
 interface Tunnel12
  description FSTR-NIPR-DMVPN-Cloud
- ip address 172.20.12.{{Third_Oct}} 255.255.255.0
+ ip address 172.20.12.{{Site_Id}} 255.255.255.0
  no ip redirects
  ip mtu 1400
  ip nhrp authentication cisco123
@@ -221,14 +221,14 @@ interface Tunnel12
 interface GigabitEthernet0/0
  description OOB Management
  vrf forwarding Mgmt-intf
- ip address 10.255.{{Third_Oct}}1.2 255.255.0.0
- duplex full
+ ip address 10.255.{{Site_Id}}.2 255.255.0.0
+ duplex full{{Site_Id}}
  speed auto
  media-type rj45
 !
 interface GigabitEthernet0/1
  description to {{Site}}-N-C-R
- ip address 10.{{Third_Oct}}.2.2 255.255.255.252
+ ip address 10.{{Site_Id}}.2.2 255.255.255.252
  ip ospf authentication message-digest
  ip ospf message-digest-key 10 md5 7 05080F1C22431F5B4A
  ip ospf 1 area 0
@@ -238,14 +238,14 @@ interface GigabitEthernet0/1
  media-type rj45
 !
 router ospf 1
- router-id 192.168.{{Third_Oct}}.2
+ router-id 192.168.{{Site_Id}}.2
  area 0 authentication message-digest
  redistribute connected subnets
  passive-interface Loopback0
 						   
  passive-interface Tunnel11
  passive-interface Tunnel12
- neighbor 192.168.{{Third_Oct}}.1
+ neighbor 192.168.{{Site_Id}}.1
 !
 router bgp 65001
  bgp log-neighbor-changes
@@ -263,7 +263,7 @@ router bgp 65001
  neighbor 192.168.12.4 description FSTR RR
  !
  address-family ipv4
-  network 172.30.{{Third_Oct}}.2 mask 255.255.255.255
+  network 172.30.{{Site_Id}}.2 mask 255.255.255.255
   neighbor TEP_REMOTE send-community both
   neighbor TEP_REMOTE route-map SET_CM_LOCAL out
   neighbor {{Primary_Hub}} activate
@@ -280,9 +280,9 @@ ip bgp-community new-format
 !
 no ip http server
 no ip http secure-server
-ip route 10.10.1.4 255.255.255.252 10.{{Third_Oct}}.2.1 name CLJN-N-VPN-R
-ip route 10.11.1.4 255.255.255.252 10.{{Third_Oct}}.2.1 name PNDL-N-VPN-R
-ip route 10.12.1.4 255.255.255.252 10.{{Third_Oct}}.2.1 name FSTR-N-VPN-R
+ip route 10.10.1.4 255.255.255.252 10.{{Site_Id}}.2.1 name CLJN-N-VPN-R
+ip route 10.11.1.4 255.255.255.252 10.{{Site_Id}}.2.1 name PNDL-N-VPN-R
+ip route 10.12.1.4 255.255.255.252 10.{{Site_Id}}.2.1 name FSTR-N-VPN-R
 ip route 192.168.10.4 255.255.255.255 172.20.10.100 name BGP-CLJN-N-RR-R
 ip route 192.168.11.4 255.255.255.255 172.20.11.100 name BGP-PNDL-N-RR-R
 ip route 192.168.12.4 255.255.255.255 172.20.12.100 name BGP-FSTR-N-RR-R
