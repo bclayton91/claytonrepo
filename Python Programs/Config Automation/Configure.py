@@ -1,6 +1,7 @@
 from pprint import pprint
 from jinja2 import Environment, FileSystemLoader
 from Vars import Vars, Data
+import time
 
 file_loader = FileSystemLoader('Templates')
 
@@ -8,6 +9,8 @@ env=Environment(loader=file_loader)
 
 def get_vpnrtr_config():
     if Var["get-vpnrtr-config"]=="True":
+        print("Generating vpn rtr config")
+        time.sleep(1)
         output=template.render(
         Site=Var["Site"],
         Site_Id=Var["Site_Id"],
@@ -21,6 +24,7 @@ def get_vpnrtr_config():
 
     else:
         print ("Skipping vpn router configuration")
+        time.sleep(1)
 
 for Var in Vars:
     template=env.get_template('VPNRTR.j2')
