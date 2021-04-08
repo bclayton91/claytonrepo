@@ -18,7 +18,7 @@ def get_vpnrtr_config(site):
         Secondary_Hub=site["Secondary_Hub"],
         Tertiary_Hub=site["Tertiary_Hub"])
         docname=(f"{site['Site']}-VPN-RTR-CONFIG")
-        fh=open(f'{docname}.txt', 'w')
+        fh=open(f'Configurations/{docname}.txt', 'w')
         fh.write(output)
         fh.close()
 
@@ -31,6 +31,6 @@ for Var in Vars:
     get_vpnrtr_config(Var)
 
 print ("Generating variable file")
-fh=open('Variables used.txt', 'w')
+fh=open('Configurations/Variables used.txt', 'w')
 fh.write(Data)
 
