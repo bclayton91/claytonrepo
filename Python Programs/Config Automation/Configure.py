@@ -7,17 +7,17 @@ file_loader = FileSystemLoader('Templates')
 
 env=Environment(loader=file_loader)
 
-def get_vpnrtr_config():
-    if Var["get-vpnrtr-config"]=="True":
+def get_vpnrtr_config(site):
+    if site["get-vpnrtr-config"]=="True":
         print("Generating vpn rtr config")
         time.sleep(1)
         output=template.render(
-        Site=Var["Site"],
-        Site_Id=Var["Site_Id"],
-        Primary_Hub=Var["Primary_Hub"],
-        Secondary_Hub=Var["Secondary_Hub"],
-        Tertiary_Hub=Var["Tertiary_Hub"])
-        docname=(f"{Var['Site']}-VPN-RTR-CONFIG")
+        Site=site["Site"],
+        Site_Id=site["Site_Id"],
+        Primary_Hub=site["Primary_Hub"],
+        Secondary_Hub=site["Secondary_Hub"],
+        Tertiary_Hub=site["Tertiary_Hub"])
+        docname=(f"{site['Site']}-VPN-RTR-CONFIG")
         fh=open(f'{docname}.txt', 'w')
         fh.write(output)
         fh.close()
@@ -28,7 +28,9 @@ def get_vpnrtr_config():
 
 for Var in Vars:
     template=env.get_template('VPNRTR.j2')
-    get_vpnrtr_config()
+    get_vpnrtr_config(Var)
 
+print ("Generating variable file")
 fh=open('Variables used.txt', 'w')
 fh.write(Data)
+
