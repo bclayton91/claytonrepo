@@ -12,7 +12,7 @@ env=Environment(loader=file_loader)
 def get_vpnrtr_config(site):
     if site["get-vpnrtr-config"]=="True":
         print("Generating vpn rtr config")
-        time.sleep(1)
+        time.sleep(0.5)
         output=template.render(
         Site=site["Site"],
         Site_Id=site["Site_Id"],
@@ -26,7 +26,7 @@ def get_vpnrtr_config(site):
 
     else:
         print ("Skipping vpn router configuration")
-        time.sleep(1)
+        time.sleep(0.5)
 
 ##Using 'for' loop, call the function against each site
 for Var in Vars:
@@ -38,4 +38,4 @@ print( "Generating variable file")
 ##Create documents and place them in the "Configurations" folder
 fh=open('Configurations/Variables used.txt', 'w')
 fh.write(Data)
-
+fh.close()
