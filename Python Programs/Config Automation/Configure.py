@@ -9,24 +9,33 @@ file_loader = FileSystemLoader('Templates')
 env=Environment(loader=file_loader)
 
 ##Define your function
-def get_vpnrtr_config(site):
-    if site["get-vpnrtr-config"]=="True":
+def get_vpnrtr_config(self):
+    if self["get-vpnrtr-config"]=="True":        
         print("Generating vpn rtr config")
-        time.sleep(0.5)
+        print("/"*50)
+        print(" ")
+        time.sleep(0.75)
         output=template.render(
-        Site=site["Site"],
-        Site_Id=site["Site_Id"],
-        Primary_Hub=site["Primary_Hub"],
-        Secondary_Hub=site["Secondary_Hub"],
-        Tertiary_Hub=site["Tertiary_Hub"])
-        docname=(f"{site['Site']}-VPN-RTR-CONFIG")
+        Site=self["Site"],
+        Site_Id=self["Site_Id"],
+        Primary_Hub=self["Primary_Hub"],
+        Secondary_Hub=self["Secondary_Hub"],
+        Tertiary_Hub=self["Tertiary_Hub"])
+        docname=(f"{self['Site']}-VPN-RTR-CONFIG")
         fh=open(f'Configurations/{docname}.txt', 'w')
         fh.write(output)
         fh.close()
 
     else:
         print ("Skipping vpn router configuration")
-        time.sleep(0.5)
+        print ("-"*50)
+        print (" ")
+        time.sleep(0.75)
+
+print ("Loading VPNRTR Template")
+time.sleep(0.75)
+print ("*"*50)
+print (" ")
 
 ##Using 'for' loop, call the function against each site
 for Var in Vars:
@@ -34,6 +43,11 @@ for Var in Vars:
     get_vpnrtr_config(Var)
 
 print( "Generating variable file")
+print("*"*50)
+time.sleep(1)
+print(" ")
+print("Completed, files stored in Configurations folder")
+print("_"*50)
 
 ##Create documents and place them in the "Configurations" folder
 fh=open('Configurations/Variables used.txt', 'w')
