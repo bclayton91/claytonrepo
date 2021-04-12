@@ -20,7 +20,9 @@ def get_vpnrtr_config(self):
         Site_Id=self["Site_Id"],
         Primary_Hub=self["Primary_Hub"],
         Secondary_Hub=self["Secondary_Hub"],
-        Tertiary_Hub=self["Tertiary_Hub"])
+        Tertiary_Hub=self["Tertiary_Hub"],
+        Community_String=self["Community_String"])
+
         docname=(f"{self['Site']}-VPN-RTR-CONFIG")
         fh=open(f'Configurations/{docname}.txt', 'w')
         fh.write(output)
