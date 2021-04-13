@@ -5,7 +5,7 @@ from Vars import Vars, Data
 import time
 
 ##Load your environment
-file_loader = FileSystemLoader('Templates')
+file_loader = FileSystemLoader('C:\GitExample1\Git\Python Programs\Config Automation\Templates')
 env=Environment(loader=file_loader)
 
 ##Define your function
@@ -24,7 +24,7 @@ def get_vpnrtr_config(self):
         Community_String=self["Community_String"])
 
         docname=(f"{self['Site']}-VPN-RTR-CONFIG")
-        fh=open(f'Configurations/{docname}.txt', 'w')
+        fh=open(f'C:\GitExample1\Git\Python Programs\Config Automation\Configurations\{docname}.txt', 'w')
         fh.write(output)
         fh.close()
 
@@ -52,6 +52,6 @@ print("Completed, files stored in Configurations folder")
 print("_"*50)
 
 ##Create documents and place them in the "Configurations" folder
-fh=open('Configurations/Variables used.txt', 'w')
+fh=open('C:\GitExample1\Git\Python Programs\Config Automation\Configurations\Variables used.txt', 'w')
 fh.write(Data)
 fh.close()
