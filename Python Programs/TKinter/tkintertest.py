@@ -21,13 +21,13 @@ Label(window, text="Enter parameters", bg="black", fg="white",
 textbox=Entry(window, width="20", bg="white")
 textbox.grid(row=4, column=0, sticky=W)
 
-Button(window, text="Submit", width=15, bg="yellow", fg="black",command=click) .grid(
+Button(window, text="Submit", width=15, bg="lawn green", fg="black",command=click) .grid(
     row=5, column=0, sticky=W)
 
 Label(window, text="Exit the program when finished", bg="black", fg="white", 
 font="none 12 bold") .grid(row=6, column=0, pady=(20,0),sticky=W)
 
-Button(window, text="Close program", width=15, command=closeprogram, bg="yellow", 
+Button(window, text="Close program", width=15, command=closeprogram, bg="lawn green", 
 fg="black") .grid(
     row=8, column=0, sticky=W)
 
