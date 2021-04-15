@@ -11,7 +11,7 @@ env=Environment(loader=file_loader)
 ##Define your function
 def get_vpnrtr_config(self):
     if self["get-vpnrtr-config"]=="True":        
-        print("Generating vpn rtr config")
+        print(f'Generating vpn rtr config for site {self["Site"]}')
         print("/"*50)
         print(" ")
         time.sleep(0.75)
@@ -29,7 +29,7 @@ def get_vpnrtr_config(self):
         fh.close()
 
     else:
-        print ("Skipping vpn router configuration")
+        print (f'Skipping vpn router configuration for site {self["Site"]}')
         print ("-"*50)
         print (" ")
         time.sleep(0.75)

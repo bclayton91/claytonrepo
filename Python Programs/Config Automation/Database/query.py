@@ -1,6 +1,8 @@
+#Import required libraries
 from tkinter import *
 from sitedatabase import database
 
+##Define GUI Functions
 def click():
     text=textbox.get()
     output.delete(0.0, END)
@@ -24,32 +26,44 @@ def click():
 def closeprogram():
     window.destroy()
 
+##Set GUI parameters
 window = Tk()
 window.title("Site search")
 window.configure(background="deep sky blue")
 window.geometry("500x500")
+
+##upload Gui Photo
 photo1=PhotoImage(file="C:\GitExample1\Git\Python Programs\TKinter\mytestgif.gif")
-Label (window, image=photo1, bg="deep sky blue") .grid(row=0, column=0, sticky=W)
 
+##Create label to present photo
+photoLabel=Label (window, image=photo1, bg="deep sky blue") 
+photoLabel.grid(row=0, column=0, sticky=W)
 
-Label(window, text="Enter Site Name",width=15, bg="black", fg="white",
- font="none 12 bold") .grid(row=1, column=0, pady=(50,0), sticky=W)
+##This label displays ("Enter Site Name") above textbox 
+siteNameLabel=Label(window, text="Enter Site Name",width=15, bg="black", fg="white",
+ font="none 12 bold") 
+siteNameLabel.grid(row=1, column=0, pady=(50,0), sticky=W)
 
+##Create textbox to collect user input
 textbox=Entry(window, width=25, bg="white")
 textbox.grid(row=4, column=0, sticky=W)
-text=textbox.get()
 
-Button(window, text="Submit", width=15, bg="lawn green", fg="black",command=click) .grid(
-    row=5, column=0, sticky=W)
+##This button is used to search database for user input
+searchButton=Button(window, text="Search", width=15, bg="lawn green", fg="black",command=click) 
+searchButton.grid(row=5, column=0, sticky=W)
+
+
 output= Text(window, width=60, height=6, bg="white", wrap=WORD)
 output.grid(row=6, column=0, columnspan=2, sticky=W, pady=(0,20))
 
-Label(window, text="Exit the program when finished", bg="black", fg="white", 
-font="none 12 bold") .grid(row=9, column=0, pady=(20,0),sticky=W)
+exitLabel=Label(window, text="Exit the program when finished", bg="black", fg="white", 
+font="none 12 bold") 
+exitLabel.grid(row=9, column=0, pady=(20,0),sticky=W)
 
-Button(window, text="Close program", width=15, command=closeprogram, bg="lawn green", 
-fg="black") .grid(
-    row=10, column=0, sticky=W)
+##Create button used to terminate program
+exitButton=Button(window, text="Close program", width=15, command=closeprogram, bg="lawn green", 
+fg="black") 
+exitButton.grid(row=10, column=0, sticky=W)
 
-
+##Run the program
 window.mainloop()
