@@ -9,7 +9,7 @@ def click():
     iteration=0
     for i in range(0,3):
         if database[i]["Site"]==text:
-            displaytext=f"{text} is a valid site"
+            displaytext=f"Site {text} found in site database"
             break
                 
         elif iteration >= 2:
