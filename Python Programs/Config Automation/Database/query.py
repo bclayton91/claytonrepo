@@ -7,12 +7,13 @@ def click():
     text=textbox.get()
     output.delete(0.0, END)
     iteration=0
-    for i in range(0,3):
+    datalen=int(len(database))
+    for i in range(0,datalen):
         if database[i]["Site"]==text:
             displaytext=f"Site {text} found in site database"
             break
                 
-        elif iteration >= 2:
+        elif iteration >= (datalen-1):
             displaytext=f"{text} is not a valid site"
             break
 
