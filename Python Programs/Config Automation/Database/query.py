@@ -18,7 +18,7 @@ def click():
             break
 
         elif database[i]["Site"]!=text:
-            iteration=iteration+1
+            iteration+=1
             continue
                 
     output.insert(END,displaytext)
