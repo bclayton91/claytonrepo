@@ -22,14 +22,14 @@ def get_vpnrtr_config():
         fh=open(f'C:\GitExample1\Git\Python Programs\Config Automation\Configurations\{docname}.txt', 'w')
         fh.write(output)
         fh.close()
-        displaytext=f"Configuration generated for site: \"{Site}\"\n Configuration stored in the following directory: C:\GitExample1\Git\Python Programs\Config Automation\Configurations"
+        displaytext=f"Configuration generated for site: \"{Site}\"\nConfiguration stored in the following directory: C:\GitExample1\Git\Python Programs\Config Automation\Configurations"
         outputBox.insert(END,displaytext)
     except:
         os.makedirs('C:\GitExample1\Git\Python Programs\Config Automation\Configurations')
         fh=open(f'C:\GitExample1\Git\Python Programs\Config Automation\Configurations\{docname}.txt', 'w')
         fh.write(output)
         fh.close()
-        displaytext=f"Configuration generated for site: \"{Site}\"\n Configuration stored in the following directory: C:\GitExample1\Git\Python Programs\Config Automation\Configurations"
+        displaytext=f"Configuration generated for site: \"{Site}\"\nConfiguration stored in the following directory: C:\GitExample1\Git\Python Programs\Config Automation\Configurations"
         outputBox.insert(END,displaytext)
 
 file_loader=FileSystemLoader('C:\GitExample1\Git\Python Programs\Config Automation\Templates')
@@ -83,7 +83,7 @@ communityStringTextBox.grid(row =12, column=0, pady=(0,20), sticky=W)
 
 getConfigButton=Button(window, text="Get configuration", command=get_vpnrtr_config, bg="lawn green", fg="black", width=15)
 getConfigButton.grid(row=13, column=0, sticky=W)
-outputBox=Text(window, width=50, height=5, bg="white", fg="black", wrap=WORD)
+outputBox=Text(window, width=50, height=5, bg="white", fg="black", wrap=WORD, font="none 10",)
 outputBox.grid(row=14, column=0, columnspan=2, pady=(0,20))
 
 exitButton=Button(window, text="Close program", width=15, command=closeprogram, bg="lawn green", 
