@@ -22,14 +22,14 @@ def get_vpnrtr_config():
         fh=open(f'C:\GitExample1\Git\Python Programs\Config Automation\Configurations\{docname}.txt', 'w')
         fh.write(output)
         fh.close()
-        displaytext=f"Configuration generated for site: \"{Site}\" \n Configuration stored in the following directory: C:\GitExample1\Git\Python Programs\Config Automation\Configurations"
+        displaytext=f"Configuration generated for site: \"{Site}\"\n Configuration stored in the following directory: C:\GitExample1\Git\Python Programs\Config Automation\Configurations"
         outputBox.insert(END,displaytext)
     except:
         os.makedirs('C:\GitExample1\Git\Python Programs\Config Automation\Configurations')
         fh=open(f'C:\GitExample1\Git\Python Programs\Config Automation\Configurations\{docname}.txt', 'w')
         fh.write(output)
         fh.close()
-        displaytext=f"Configuration generated for site {Site}\n Configuration stored in the following directory: C:\GitExample1\Git\Python Programs\Config Automation\Configurations"
+        displaytext=f"Configuration generated for site: \"{Site}\"\n Configuration stored in the following directory: C:\GitExample1\Git\Python Programs\Config Automation\Configurations"
         outputBox.insert(END,displaytext)
 
 file_loader=FileSystemLoader('C:\GitExample1\Git\Python Programs\Config Automation\Templates')
