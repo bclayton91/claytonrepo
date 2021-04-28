@@ -3,6 +3,7 @@ from pprint import pprint
 from jinja2 import Environment, FileSystemLoader
 from Vars import Vars, Data
 import time
+import os
 
 ##Load your environment
 file_loader = FileSystemLoader('C:\GitExample1\Git\Python Programs\Config Automation\Templates')
@@ -14,7 +15,7 @@ def get_vpnrtr_config(self):
         print(f'Generating vpn rtr config for site {self["Site"]}')
         print("/"*50)
         print(" ")
-        time.sleep(0.75)
+        time.sleep(0.5)
         output=template.render(
         Site=self["Site"],
         Site_Id=self["Site_Id"],
@@ -24,18 +25,25 @@ def get_vpnrtr_config(self):
         Community_String=self["Community_String"])
 
         docname=(f"{self['Site']}-VPN-RTR-CONFIG")
-        fh=open(f'C:\GitExample1\Git\Python Programs\Config Automation\Configurations\{docname}.txt', 'w')
-        fh.write(output)
-        fh.close()
+        try:
+            fh=open(f'C:\GitExample1\Git\Python Programs\Config Automation\Configurations\{docname}.txt', 'w')
+            fh.write(output)
+            fh.close()
+        except:
+            os.makedirs('C:\GitExample1\Git\Python Programs\Config Automation\Configurations')
+            fh=open(f'C:\GitExample1\Git\Python Programs\Config Automation\Configurations\{docname}.txt', 'w')
+            fh.write(output)
+            fh.close()
+
 
     else:
         print (f'Skipping vpn router configuration for site {self["Site"]}')
         print ("-"*50)
         print (" ")
-        time.sleep(0.75)
+        time.sleep(0.5)
 
 print ("Loading VPNRTR Template")
-time.sleep(0.75)
+time.sleep(0.5)
 print ("*"*50)
 print (" ")
 
@@ -46,7 +54,7 @@ for Var in Vars:
 
 print( "Generating variable file")
 print("*"*50)
-time.sleep(1)
+time.sleep(.5)
 print(" ")
 print("Completed, files stored in Configurations folder")
 print("_"*50)
