@@ -5,7 +5,7 @@ import os
 from labDevices import Network_Devices
 
 
-def ssh(self):
+def backup_config(self):
     try:
         ssh=ConnectHandler(**self)
         ssh.enable()
@@ -43,7 +43,7 @@ def ssh(self):
     
 
 for device in Network_Devices:
-    ssh(device)
+    backup_config(device)
 
 print("")
 print("/"*50)
