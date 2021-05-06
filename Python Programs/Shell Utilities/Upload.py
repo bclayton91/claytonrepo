@@ -5,6 +5,15 @@ destination="C:/GitExample1/Git/Python Programs/NewFolder"
 
 try:
     shutil.rmtree(destination)
+    print("Deleting folder, creating new one")
+    print ("*"*75)
+    print("")
 except:
-    shutil.copytree(source,destination)
-    print("Folder created")
+    print("Creating new folder")
+    print ("*"*75)
+    print("")    
+
+    
+shutil.copytree(source,destination)
+print(f'Backup configurations copied to directory: {destination}')
+print("!"*50)
