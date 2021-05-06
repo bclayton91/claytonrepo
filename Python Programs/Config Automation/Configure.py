@@ -6,9 +6,10 @@ import time
 import os
 
 ##Load your environment
-file_loader = FileSystemLoader('C:\GitExample1\Git\Python Programs\Config Automation\Templates')
+file_path='C:\GitExample1\Git\Python Programs\Config Automation\Templates'
+file_loader = FileSystemLoader(file_path)
 env=Environment(loader=file_loader)
-
+template=env.get_template('VPNRTR.j2')
 ##Define your function
 def get_vpnrtr_config(self):
     if self["get-vpnrtr-config"]=="True":        
@@ -49,7 +50,6 @@ print (" ")
 
 ##Using 'for' loop, call the function against each site
 for Var in Vars:
-    template=env.get_template('VPNRTR.j2')
     get_vpnrtr_config(Var)
 
 print( "Generating variable file")
