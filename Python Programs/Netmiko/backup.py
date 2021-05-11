@@ -9,7 +9,8 @@ date_object = datetime.date.today()
 def backup_config_CLJN(self):
     
     try:
-        os.makedirs('C:/GitExample1/Git/Python Programs/Netmiko/Backups/CLJN')
+        path=f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/CLJN/{date_object}'
+        os.makedirs(path)
         print("Creating Directory")
         print("*"*50)
         print("")
@@ -30,7 +31,7 @@ def backup_config_CLJN(self):
         
         
         
-        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/CLJN/{self["secret"]} {date_object} configuration.txt','w')
+        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/CLJN/{date_object}/{self["secret"]} {date_object} configuration.txt','w')
         fh.write(data)
         fh.close()
         print(f'Configuration generated successfully')
@@ -43,7 +44,8 @@ def backup_config_CLJN(self):
 def backup_config_FSTR(self):
     
     try:
-        os.makedirs('C:/GitExample1/Git/Python Programs/Netmiko/Backups/FSTR')
+        path=f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/FSTR/{date_object}'
+        os.makedirs(path)
         print("Creating Directory")
         print("*"*50)
         print("")
@@ -64,7 +66,7 @@ def backup_config_FSTR(self):
         
         
         
-        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/FSTR/{self["secret"]} {date_object} configuration.txt','w')
+        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/FSTR/{date_object}/{self["secret"]} {date_object} configuration.txt','w')
         fh.write(data)
         fh.close()
         print(f'Configuration generated successfully')
@@ -76,7 +78,8 @@ def backup_config_FSTR(self):
 def backup_config_PNDL(self):
     
     try:
-        os.makedirs('C:/GitExample1/Git/Python Programs/Netmiko/Backups/PNDL')
+        path=f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/PNDL/{date_object}'
+        os.makedirs(path)
         print("Creating Directory")
         print("*"*50)
         print("")
@@ -97,7 +100,7 @@ def backup_config_PNDL(self):
         
         
         
-        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/PNDL/{self["secret"]} {date_object} configuration.txt','w')
+        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/PNDL/{date_object}/{self["secret"]} {date_object} configuration.txt','w')
         fh.write(data)
         fh.close()
         print(f'Configuration generated successfully')
