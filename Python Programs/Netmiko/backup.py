@@ -6,10 +6,10 @@ from labDevices import Lejeune_Devices, Foster_Devices, Pendleton_Devices
 
 date_object = datetime.date.today()
 
-def backup_config_CLJN(self):
+def backup_configs(self, HUB):
     
     try:
-        path=f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/CLJN/{date_object}'
+        path=f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/{HUB}/{date_object}'
         os.makedirs(path)
         print("Creating Directory")
         print("*"*50)
@@ -31,7 +31,7 @@ def backup_config_CLJN(self):
         
         
         
-        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/CLJN/{date_object}/{self["secret"]} {date_object} configuration.txt','w')
+        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/{HUB}/{date_object}/{self["secret"]} {date_object} configuration.txt','w')
         fh.write(data)
         fh.close()
         print(f'Configuration generated successfully')
@@ -41,80 +41,13 @@ def backup_config_CLJN(self):
     except:
         print(f'Could not connect to device: {self["secret"]}')
 
-def backup_config_FSTR(self):
-    
-    try:
-        path=f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/FSTR/{date_object}'
-        os.makedirs(path)
-        print("Creating Directory")
-        print("*"*50)
-        print("")
-        print("")
-    except:
-        
-        print("-"*50)
-        print("")
-    
-    try:
-        ssh=ConnectHandler(**self)
-        ssh.enable()
-        cmd="Show run"
-        data=(ssh.send_command(cmd))
-        print(f"Connecting to device: {self['secret']}")
-        print ("*"*50)
-        time.sleep(0.5)
-        
-        
-        
-        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/FSTR/{date_object}/{self["secret"]} {date_object} configuration.txt','w')
-        fh.write(data)
-        fh.close()
-        print(f'Configuration generated successfully')
-        print("")
-
-    except:
-        print(f'Could not connect to device: {self["secret"]}')    
-
-def backup_config_PNDL(self):
-    
-    try:
-        path=f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/PNDL/{date_object}'
-        os.makedirs(path)
-        print("Creating Directory")
-        print("*"*50)
-        print("")
-        print("")
-    except:
-        
-        print("-"*50)
-        print("")
-    
-    try:
-        ssh=ConnectHandler(**self)
-        ssh.enable()
-        cmd="Show run"
-        data=(ssh.send_command(cmd))
-        print(f"Connecting to device: {self['secret']}")
-        print ("*"*50)
-        time.sleep(0.5)
-        
-        
-        
-        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/PNDL/{date_object}/{self["secret"]} {date_object} configuration.txt','w')
-        fh.write(data)
-        fh.close()
-        print(f'Configuration generated successfully')
-        print("")
-
-    except:
-        print(f'Could not connect to device: {self["secret"]}')       
 
 for device in Lejeune_Devices:
-    backup_config_CLJN(device)
+    backup_configs(device, 'CLJN')
 for device in Foster_Devices:
-    backup_config_FSTR(device)
+    backup_configs(device, 'FSTR')
 for device in Pendleton_Devices:
-    backup_config_PNDL(device)
+    backup_configs(device, 'PNDL')
 
 print("")
 print("/"*50)
