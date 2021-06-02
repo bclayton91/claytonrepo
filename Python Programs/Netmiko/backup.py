@@ -5,11 +5,11 @@ import os
 from labDevices import Lejeune_Devices, Foster_Devices, Pendleton_Devices
 
 date_object = datetime.date.today()
-
+month=date_object.strftime("%B")
 def backup_configs(self, HUB):
     
     try:
-        path=f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/{HUB}/{date_object}'
+        path=f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/{HUB}/{month}/{date_object}'
         os.makedirs(path)
         print("Creating Directory")
         print("*"*50)
@@ -31,7 +31,7 @@ def backup_configs(self, HUB):
         
         
         
-        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/{HUB}/{date_object}/{self["secret"]} {date_object} configuration.txt','w')
+        fh=open(f'C:/GitExample1/Git/Python Programs/Netmiko/Backups/{HUB}/{month}/{date_object}/{self["secret"]} {date_object} configuration.txt','w')
         fh.write(data)
         fh.close()
         print(f'Configuration generated successfully')
@@ -52,6 +52,6 @@ for device in Pendleton_Devices:
 print("")
 print("/"*50)
 print("Configurations stored in the following directory:")
-print("C:/GitExample1/Git/Python Programs/Netmiko/Backups")
+print(f"C:/GitExample1/Git/Python Programs/Netmiko/Backups/{month}")
 print("")
 
