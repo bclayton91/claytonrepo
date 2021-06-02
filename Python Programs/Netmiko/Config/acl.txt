@@ -1,0 +1,9 @@
+ip access-list standard MANAGEMENT_NET
+ 10 permit 192.168.235.0 0.0.0.255 log
+ 20 permit 10.212.134.0 0.0.0.255 log
+ 21 permit 172.16.0.0 0.0.0.255 log
+ 30 deny   any log
+
+line vty 0 4
+  access-class MANAGEMENT_NET in vrf-also
+  do write memory
