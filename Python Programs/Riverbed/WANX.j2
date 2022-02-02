@@ -1,0 +1,15 @@
+hostname {{hostname}}
+interface inpath1_0 description {{inPathDesc}}
+no interface inpath1_0 dhcp
+no interface inpath1_0 dhcp dynamic-dns
+no interface inpath1_0 dhcpv6
+no interface inpath1_0 dhcpv6 dynamic-dns
+no interface inpath1_0 force-mdi-x enable
+   interface inpath1_0 ip address {{inPathIp}} {{inPathMask}}
+   interface inpath1_0 mtu "1500"
+   interface inpath1_0 napi-weight "128"
+no interface inpath1_0 shutdown
+   interface inpath1_0 speed "auto"
+   interface inpath1_0 txqueuelen "20000"
+no interface primary dhcp
+   interface primary ip address {{primaryIp}} {{primaryMask}}
